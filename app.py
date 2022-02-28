@@ -3,14 +3,14 @@ import pandas as pd
 from flask import Flask, request, render_template
 import pickle
 
-app1 = Flask(__name__)
+app = Flask(__name__)
 model = pickle.load(open('breast_cancer_detector.pickle', 'rb'))
 
-@app1.route('/')
+@app.route('/')
 def home():
     return render_template('index.html')
 
-@app1.route('/predict',methods=['POST'])
+@app.route('/predict',methods=['POST'])
 def predict():
     input_features = [float(x) for x in request.form.values()]
     features_value = [np.array(input_features)]
@@ -37,4 +37,4 @@ def predict():
     return render_template('index.html', prediction_text='Patient has {}'.format(res_val))
 
 if __name__ == "__main__":
-    app1.run()
+    app.run()
